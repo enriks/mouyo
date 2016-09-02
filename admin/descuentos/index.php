@@ -63,7 +63,7 @@ Page::header("Descuentos");
 </div>
 <?php
 
-	$sql = "select descuentos.nombre,descuentos.id_descuento,descuentos.fecha_inicio, descuentos.fecha_limite,jugos.imagen,jugos.nombre nombre_jugo,jugos.precio, descuentos.descuento from jugos, descuentos where descuentos.id_jugo = jugos.id_jugo";
+	$sql = "select descuentos.nombre,descuentos.id_descuento,descuentos.fecha_inicio, descuentos.fecha_limite,jugos.imagen,jugos.nombre nombre_jugo,jugos.precio, descuentos.descuento from jugos, descuentos where descuentos.id_jugo = jugos.id_jugo and descuentos.estado=0";
 	$params = null;
 $data=Database::getRows($sql,$params);
 if($data != null)

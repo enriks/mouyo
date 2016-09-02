@@ -76,15 +76,15 @@ Page::header("Jugos");
 if(!empty($_POST))
 {
 	$search = trim($_POST['buscar']);
-	$sql = "SELECT jugos.id_jugo,jugos.nombre nombre_jugo,jugos.descripcion descripcion_jugo,jugos.imagen,jugos.precio, jugos.tamanio,tamanio.tamanio nombre_tamanio,tipo_jugo.nombre nombre_tipojugo FROM jugos,tipo_jugo,tamanio where jugos.id_tipojugo=tipo_jugo.id_tipojugo and jugos.tamanio=tamanio.id_tamanio AND jugos.nombre LIKE ? ORDER BY jugos.nombre";
+	$sql = "SELECT jugos.id_jugo,jugos.nombre nombre_jugo,jugos.descripcion descripcion_jugo,jugos.imagen,jugos.precio, jugos.tamanio,tamanio.tamanio nombre_tamanio,tipo_jugo.nombre nombre_tipojugo FROM jugos,tipo_jugo,tamanio where jugos.id_tipojugo=tipo_jugo.id_tipojugo and jugos.tamanio=tamanio.id_tamanio AND jugos.nombre LIKE ? and jugos.estado=0 ORDER BY jugos.nombre";
 	$params = array("%$search%");
-    $ingre="SELECT ingrediente.nombre nombre_ingrediente from ingrediente,detalle_bebida,jugos WHERE jugos.id_jugo = detalle_bebida.id_jugo and ingrediente.id_ingrediente = detalle_bebida.id_ingrediente";
+    $ingre="SELECT ingrediente.nombre nombre_ingrediente from ingrediente,detalle_bebida,jugos WHERE jugos.id_jugo = detalle_bebida.id_jugo and ingrediente.id_ingrediente = detalle_bebida.id_ingrediente and ingrediente.estado=0";
 }
 else
 {
-	$sql = "SELECT jugos.id_jugo,jugos.nombre nombre_jugo,jugos.descripcion descripcion_jugo,jugos.imagen,jugos.precio,tipo_jugo.nombre nombre_tipojugo FROM jugos,tipo_jugo where jugos.id_tipojugo=tipo_jugo.id_tipojugo   ORDER BY jugos.nombre";
+	$sql = "SELECT jugos.id_jugo,jugos.nombre nombre_jugo,jugos.descripcion descripcion_jugo,jugos.imagen,jugos.precio,tipo_jugo.nombre nombre_tipojugo FROM jugos,tipo_jugo where jugos.id_tipojugo=tipo_jugo.id_tipojugo and jugos.estado=0  ORDER BY jugos.nombre";
 	$params = null;
-    $ingre="SELECT ingrediente.nombre nombre_ingrediente from ingrediente,detalle_bebida,jugos WHERE jugos.id_jugo = detalle_bebida.id_jugo and ingrediente.id_ingrediente = detalle_bebida.id_ingrediente";
+    $ingre="SELECT ingrediente.nombre nombre_ingrediente from ingrediente,detalle_bebida,jugos WHERE jugos.id_jugo = detalle_bebida.id_jugo and ingrediente.id_ingrediente = detalle_bebida.id_ingrediente and ingrediente.estado=0";
 }
 $data = Database::getRows($sql, $params);
 $data2 =Database::getRows($ingre, $params);

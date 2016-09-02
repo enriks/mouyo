@@ -25,12 +25,12 @@ Page::header("Tipo de jugo");
 if(!empty($_POST))
 {
 	$search = trim($_POST['buscar']);
-	$sql = "SELECT * FROM tipo_jugo WHERE nombre LIKE ? ORDER BY nombre";
+	$sql = "SELECT * FROM tipo_jugo WHERE nombre LIKE ? and estado=0 ORDER BY nombre";
 	$params = array("%$search%");
 }
 else
 {
-	$sql = "SELECT * FROM tipo_jugo ORDER BY nombre";
+	$sql = "SELECT * FROM tipo_jugo where estado=0 ORDER BY nombre";
 	$params = null;
 }
 $data=Database::getRows($sql,$params);

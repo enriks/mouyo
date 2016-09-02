@@ -20,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM promociones WHERE id_promocion = ?";
+		$sql = "update promociones set estado=1 WHERE id_promocion = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    @header("location: index.php");

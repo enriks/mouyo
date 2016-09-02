@@ -4,7 +4,7 @@ require("../lib/page.php");
 require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso2($_SESSION['permisos']);
-Page::header("Eliminar categoría");
+Page::header("Eliminar descuento");
 
 if(!empty($_GET['id'])) 
 {
@@ -20,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM descuentos WHERE id_descuento = ?";
+		$sql = "update descuentos set estado=1 WHERE id_descuento = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    @header("location: index.php");

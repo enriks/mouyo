@@ -15,6 +15,7 @@ if(empty($_GET['id']))
     $archivo=null;
     $correo=null;
 $permiso="";
+  $estado=null;  
 }
 else
 {
@@ -28,6 +29,23 @@ else
     $archivo=$data['foto'];
     $correo=$data['correo'];
 $permiso=$data['permiso'];
+    $estado=$data['estado'];
+     if($estado==0)
+     {
+         $checkestado="<p>Estado:
+            <input id='activo' type='radio' checked name='estado' class='with-gap'  value='1' />
+      <label for='activo'><i class='material-icons'>visibility</i></label>
+    <input id='inactivo' type='radio' name='estado' class='with-gap' value='0'/>
+    <label for='inactivo'><i class='material-icons'>visibility_off</i></label></p>";
+     }
+    else
+    {
+        $checkestado="<p>Estado:
+            <input id='activo' type='radio' name='estado' class='with-gap'  value='1' />
+      <label for='activo'><i class='material-icons'>visibility</i></label>
+    <input id='inactivo' checked type='radio' name='estado' class='with-gap' value='0'/>
+    <label for='inactivo'><i class='material-icons'>visibility_off</i></label></p>";
+    }
 }
 
 if(!empty($_POST))
@@ -35,7 +53,8 @@ if(!empty($_POST))
      $_POST = Validator::validateForm($_POST);
      $alias = htmlentities($_POST['alias']);
     $correo = htmlentities($_POST['correo']);
-    $permiso=$_POST['permiso'];
+    $permiso=htmlentities($_POST['permiso']);
+    $estado=htmlentities($_POST['estado']);
     $archivo=$_FILES['imagen'];
     
     try
@@ -65,8 +84,8 @@ if(!empty($_POST))
                 if( $archivo['name'] != null)
                 {
                 $clave = password_hash($clave1, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO `admin` (`alias`, `clave`, `correo`,foto,permiso) VALUES(?, ?, ?,?,?)";
-                $params=array($alias,$clave,$correo,$imagen,$permiso);
+                $sql = "INSERT INTO `admin` (`alias`, `clave`, `correo`,foto,permiso,estado) VALUES(?, ?,?, ?,?,?)";
+                $params=array($alias,$clave,$correo,$imagen,$permiso,$estado);
                     Database::executeRow($sql, $params);
             @header("location: index.php");
                 }
@@ -80,16 +99,16 @@ if(!empty($_POST))
                 if( $archivo['name'] != null)
                 {
                     $clave = password_hash($clave1, PASSWORD_DEFAULT);
-                    $sql = "update admin set alias=?, clave=?,foto=?,correo=? where id_admin=?";
-                    $params = array($nombre, $clave,$imagen,$correo,$id);
+                    $sql = "update admin set alias=?, clave=?,foto=?,correo=?,permiso=?,estado=? where id_admin=?";
+                    $params = array($alias, $clave,$imagen,$correo,$permiso,$estado,$id);
                     Database::executeRow($sql, $params);
             @header("location: index.php");
                 }
                 else
                 {
                     $clave = password_hash($clave1, PASSWORD_DEFAULT);
-                    $sql = "update admin set alias=?, clave=?,correo=? where id_admin=?";
-                    $params = array($nombre, $clave,$correo,$id);
+                    $sql = "update admin set alias=?, clave=?,correo=?,permiso=?,estado=? where id_admin=?";
+                    $params = array($alias, $clave,$correo,$permiso,$estado,$id);
                     Database::executeRow($sql, $params);
             @header("location: index.php");
                 }
@@ -147,12 +166,17 @@ if(!empty($_POST))
         		</div>
         </div>
     </div>
-    <div class="col s12 ">
+    <div class="row">  
+    <div class="col s12 m6">
             <?php
     		    $sql = "SELECT id_permiso,nombre FROM permisos";
     		    Page::setCombo("permiso", $permiso, $sql);
     		    ?>
+        </div> 
+           <div class="col s12 m6">
+           <?php print $checkestado;?>
         </div>
+    </div>
  	<button type='submit' class='btn blue'><i class='material-icons right'>save</i>Guardar</button>
 </form>
 <?php

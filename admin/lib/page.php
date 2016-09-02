@@ -40,6 +40,7 @@
                         <a href='#' data-activates='mobile' class='button-collapse'><i class='material-icons'>menu</i></a>
                             <ul class='right hide-on-med-and-down'>
                                 <li><a href='../admin/index.php'>Administradores</a></li>
+                                <li><a href='../usuario/index.php'>Usuario</a></li>
                                 <li><a class='dropdown-button' href='#' data-activates='dropdown'><div class='chip'>
                                 <img id='foto_perfil imagen_video'
                                 src='data:image/*;base64,$_SESSION[img_admin]'
@@ -137,6 +138,7 @@
 		          					<li><a href='../ingredientes/index.php'>ingredientes</a></li>
 		          					<li><a href='../promociones/index.php'>Promociones</a></li>
 		          					<li><a href='../admin/index.php'>Administradores</a></li>
+		          					<li><a href='../usuario/index.php'>Usuario</a></li>
 		          					<li><a href='../descuentos/index.php'>Descuentos</a></li>
 		          					<li><a href='../tamanio/index.php'>Vasos</a></li>
 		          					<li><a class='dropdown-button' href='#' data-activates='dropdown'><div class='chip'>

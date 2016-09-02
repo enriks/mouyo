@@ -51,12 +51,12 @@ Page::header("Tamaños de Bebidas");
 if(!empty($_POST))
 {
 	$search = trim($_POST['buscar']);
-	$sql = "SELECT * FROM tamanio WHERE tamanio LIKE ? ORDER BY tamanio";
+	$sql = "SELECT * FROM tamanio WHERE tamanio LIKE ? and estado=0 ORDER BY tamanio";
 	$params = array("%$search%");
 }
 else
 {
-	$sql = "SELECT * FROM tamanio ORDER BY tamanio";
+	$sql = "SELECT * FROM tamanio where estado=0 ORDER BY tamanio";
 	$params = null;
 }
 $data=Database::getRows($sql,$params);

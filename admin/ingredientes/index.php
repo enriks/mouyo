@@ -67,12 +67,12 @@ Page::header("Ingredientes");
 if(!empty($_POST))
 {
 	$search = trim($_POST['buscar']);
-	$sql = "SELECT ingrediente.id_ingrediente,ingrediente.nombre nombre_ingrediente,ingrediente.imagen,ingrediente.descripcion,tipo_ingrediente.id_tipo,tipo_ingrediente.nombre nombre_tipo,tipo_ingrediente.precio from ingrediente,tipo_ingrediente where ingrediente.tipo=tipo_ingrediente.id_tipo  AND ingrediente.nombre LIKE ? ORDER BY ingrediente.nombre";
+	$sql = "SELECT ingrediente.id_ingrediente,ingrediente.nombre nombre_ingrediente,ingrediente.imagen,ingrediente.descripcion,tipo_ingrediente.id_tipo,tipo_ingrediente.nombre nombre_tipo,tipo_ingrediente.precio from ingrediente,tipo_ingrediente where ingrediente.tipo=tipo_ingrediente.id_tipo  AND ingrediente.nombre LIKE ? and ingrediente.estado=0 ORDER BY ingrediente.nombre";
 	$params = array("%$search%");
 }
 else
 {
-	$sql = "SELECT ingrediente.id_ingrediente,ingrediente.nombre nombre_ingrediente,ingrediente.imagen,ingrediente.descripcion,tipo_ingrediente.id_tipo,tipo_ingrediente.nombre nombre_tipo,tipo_ingrediente.precio from ingrediente,tipo_ingrediente where ingrediente.tipo=tipo_ingrediente.id_tipo  ORDER BY ingrediente.nombre";
+	$sql = "SELECT ingrediente.id_ingrediente,ingrediente.nombre nombre_ingrediente,ingrediente.imagen,ingrediente.descripcion,tipo_ingrediente.id_tipo,tipo_ingrediente.nombre nombre_tipo,tipo_ingrediente.precio from ingrediente,tipo_ingrediente where ingrediente.tipo=tipo_ingrediente.id_tipo and ingrediente.estado=0  ORDER BY ingrediente.nombre";
 	$params = null;
 }
 $data = Database::getRows($sql, $params);

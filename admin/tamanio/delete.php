@@ -8,7 +8,7 @@ Page::header("Eliminar Tamaño de Bebida");
 
 if(!empty($_GET['id'])) 
 {
-    $id = $_GET['id'];
+    $id = base64_decode($_GET['id']);
 }
 else
 {
@@ -20,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM tamanio WHERE id_tamanio = ?";
+		$sql = "update tamanio set estado=1 WHERE id_tamanio = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    header("location: index.php");

@@ -91,7 +91,7 @@ if(!empty($_POST))
 }
 else
 {
-	$sql = "SELECT * FROM admin ORDER BY alias";
+	$sql = "SELECT * FROM admin where estado=0 ORDER BY alias";
 	$params = null;
 }
 $data=Database::getRows($sql,$params);

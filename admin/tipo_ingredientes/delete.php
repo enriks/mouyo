@@ -2,15 +2,17 @@
 ob_start();
 require("../lib/page.php");
 require("../../lib/database.php");
-Page::header("Eliminar producto");
+require("../lib/verificador.php");
+verificador::permiso3($_SESSION['permisos']);
+Page::header("Eliminar tipo de ingrediente");
 
 if(!empty($_GET['id'])) 
 {
-    $id = base64_decode($_GET['id']);
+    $id =base64_decode($_GET['id']);
 }
 else
 {
-    @header("location: index.php");
+    header("location: index.php");
 }
 
 if(!empty($_POST))
@@ -18,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "update ingrediente set estado=1 WHERE id_ingrediente = ?";
+		$sql = "update tipo_ingrediente set estado=1 WHERE id_tipo = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    @header("location: index.php");

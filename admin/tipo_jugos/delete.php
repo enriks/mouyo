@@ -4,11 +4,11 @@ require("../lib/page.php");
 require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
-Page::header("Eliminar categoría");
+Page::header("Eliminar tipo de jugo");
 
 if(!empty($_GET['id'])) 
 {
-    $id = $_GET['id'];
+    $id = base64_decode($_GET['id']);
 }
 else
 {
@@ -20,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM tipo_jugo WHERE id_tipojugo = ?";
+		$sql = "update tipo_jugo set estado=1 WHERE id_tipojugo = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    @header("location: index.php");

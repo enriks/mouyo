@@ -2,6 +2,8 @@
     require("main/page2.php");
     require("../lib/database.php");
     Page2::header();
+$tamanio='';
+$cotizacion='';
     if(isset($_POST['enviar69']))
     {
         try
@@ -47,8 +49,9 @@
          <?php
             $tabs="<div class='col s12'>
       <ul class='tabs'>";
-            $select="select * from cotizacion";
-            $data=Database::getRows($select,null);
+            $select="select * from cotizacion where id_usuario =?";
+$params=array($_SESSION['id_usuario']);
+            $data=Database::getRows($select,$params);
             foreach($data as $datos)
             {
                 $tabs.="<li class='tab col s3'><a href='#test$datos[id_cotizacion]'>$datos[nombre]</a></li>";
@@ -56,15 +59,16 @@
         $tabs.="
       </ul>
     </div>";
-$contenido="";
-$elselect="SELECT jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio order by jugos.nombre";
 
+$elselect="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? ";
+
+   $contenido=""; 
 foreach($data as $datas)
 {
     $totaal=0;
-    $params=array($datas['id_cotizacion']);
+    $params=array($datas['id_cotizacion'],$_SESSION['id_usuario']);
     $dats=Database::getRows($elselect,$params);
-  $contenido.="<div id='test$datas[id_cotizacion]' class='col s12'><table style='width:100%' class='bordered'>
+  $tabs.="<div id='test$datas[id_cotizacion]' class='col s12'><table style='width:100%' class='bordered'>
         <thead>
           <tr>
               <th data-field='imagen'>Imagen</th>
@@ -76,9 +80,11 @@ foreach($data as $datas)
               <th data-field='accion'>Accion</th>
           </tr>
         </thead><tbody>";
-    
+
+    $contenido='';
     foreach($dats as $das)
     {
+        //$contenido2="";
         $total=$das['precio']*$das['cantidad'];
         $contenido.="
           <tr>
@@ -88,22 +94,72 @@ foreach($data as $datas)
             <td>$das[precio]</td>
             <td>$das[cantidad]</td>
             <td>$total</td>
-            <td><a class='waves-effect waves-light btn red' href='delete_jugocotizacion.php?id=".base64_encode($das ['id_jugo'])."'>Eliminar</a></td>
+            <td><a class='waves-effect waves-light btn red modal-trigger' href='#modal$das[id_jugo]'>Eliminar</a>
+            <a class='waves-effect waves-light btn blue modal-trigger tooltipped' data-position='right' data-delay='150' data-tooltip='nada' href='#modal3$das[id_jugo]'><i class='material-icons right'>add_shopping_cart</i>Modificar jugo</a></td>
           </tr>";
         $totaal=$total+$totaal;
+        
     }
-    $contenido.="</tbody>
-      </table><div class='row'>
+    $tabs.=$contenido;
+    $tabs.="</tbody>
+      </table>";
+    foreach($dats as $dass)
+    {
+        //$contenido2="";
+        $tabs.="<div id='modal$dass[id_jugo]' class='modal'>
+    <div class='modal-content'>
+      <form method='post' action='delete_jugocotizacion.php' class='row center-align'>
+	<input type='hidden' name='id' value='$dass[id_jugo]'/>
+	<h4>Eliminar el jugo</h4>
+	<button type='submit' class='btn red'><i class='material-icons right'>done</i>Si</button>
+	<a href='index.php' class='btn grey'><i class='material-icons right'>cancel</i>No</a>
+</form>
+    </div>
+    <div class='modal-footer'>
+      <a href='#!' class=' modal-action modal-close waves-effect waves-green btn-flat'>Cerrar</a>
+    </div>
+  </div>";
+       $tabs.="<div id='modal3$dass[id_jugo]' class='modal'>
+    <div class='modal-content'>
+     <form method='post' name='frmCotizacion' class='center-align'>
+        <fieldset>
+            <div class='row'>
+                <div class='input-field col s6 m6'>
+                    <i class='material-icons prefix'>format_list_numbered</i>
+                    <input id='cantidad' type='text' name='cantidad' class='validate' value='$das[cantidad]'/>
+                    <label for='cantidad'>Cantidad</label>
+                </div>
+                <div class='input-field col s6 m6'>";
+        $skl="SELECT id_tamanio, tamanio FROM tamanio";
+        $skl2="SELECT id_cotizacion, nombre FROM cotizacion where id_usuario = $_SESSION[id_usuario]";
+        $tamanio=$das['nombre_tamanio'];
+        $cotizacion=$das['nombre_cotizacion'];
+                    	$tabs.=page2::setCombo_texto("tamanio",$tamanio,$skl);
+                    	$tabs.=page2::setCombo_texto("cotizacion",$cotizacion,$skl2);
+       $tabs.="
+                </div>
+            </div>
+            <button type='submit' name='enviar1' class='btn grey left tooltipped' data-position='bottom' data-delay='50' data-tooltip='I am tooltip'><i class='material-icons right'>add</i></button> 
+            </fieldset>
+            </form>
+    </div>
+    <div class='modal-footer'>
+      <a href='#!' class=' modal-action modal-close waves-effect waves-green btn-flat'>Cerrar</a>
+    </div>
+  </div>";
+    }
+   $tabs.="<div class='row'>
     <div class='col s12'>
     <div class='card-panel teal '><p class='card-panel  light-blue accent-3'>Total: $$totaal</p>
     <a class='waves-effect waves-light btn red' href='delete_cotizacion.php?id=".base64_encode($datas['id_cotizacion'])."&total=".base64_encode($totaal)."'>Eliminar</a></div>
         
     </div>
 </div></div>";
+    
 }
-
+//$contenido.=$contenido2;
 print $tabs;
-print $contenido;
+//print $contenido;
         ?>
  
  <?php Page2::footer();?>

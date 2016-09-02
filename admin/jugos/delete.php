@@ -20,10 +20,10 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-        $sql2="delete from comentarios where id_jugo=?";
+        $sql2="update comentarios set estado=1 where id_jugo=?";
         $params2=array($id);
-		$sql3="delete from detalle_bebida where id_jugo=?";
-		$sql = "DELETE FROM jugos WHERE id_jugo = ?";
+		$sql3="update detalle_bebida set estado=1 where id_jugo=?";
+		$sql = "update jugos set estado=1 WHERE id_jugo = ?";
 	    $params = array($id);
         Database::executeRow($sql2,$params);
 	    Database::executeRow($sql3,$params);

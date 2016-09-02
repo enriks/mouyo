@@ -29,7 +29,7 @@ if(!empty($_POST))
             {
                 $hash=$data['clave'];
                 if(password_verify($clave,$hash))
-                
+                {
                     $sql2="select sesion from admin where id_admin=?";
                     $params2=array($data['id_admin']);
                     $dat=Database::getRow($sql2,$params2);
@@ -65,6 +65,7 @@ if(!empty($_POST))
         else
         {
             throw new Exception("Debes ingresar un alias y una clave we");
+        }
         }
     }
     catch (Exception $error)

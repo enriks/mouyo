@@ -20,7 +20,7 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM admin WHERE id_admin = ?";
+		$sql = "update admin set estado=1 WHERE id_admin = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    header("location: index.php");

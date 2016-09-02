@@ -68,7 +68,7 @@ if(!empty($_POST))
 }
 else
 {
-	$sql = "SELECT * FROM promociones ORDER BY titulo";
+	$sql = "SELECT * FROM promociones where estado=0 ORDER BY titulo";
 	$params = null;
 }
 $data=Database::getRows($sql,$params);
