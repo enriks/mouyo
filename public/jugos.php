@@ -1,7 +1,7 @@
 <?php
-    require("main/page2.php");
+   require("main/page2.php");
 require("../lib/database.php");
-    Page2::header("");
+   Page2::header("");
 ?><br>
 <!--Contenido principal de jugos-->
     <div class="container">
@@ -85,6 +85,6 @@ require("../lib/database.php");
         ?>
     </div>
     <br>
-    <?php require'inc/footer.php'; 
+    <?php  
 Page2::footer();?>
     

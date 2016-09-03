@@ -2,6 +2,7 @@
     require("main/page2.php");
     require("../lib/database.php");
     Page2::header();
+include("jugos.php");
 $tamanio='';
 $cotizacion='';
     if(isset($_POST['enviar69']))
@@ -60,7 +61,7 @@ $params=array($_SESSION['id_usuario']);
       </ul>
     </div>";
 
-$elselect="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? ";
+$elselect="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? and detalle_cotizacion.id_cotizacion=cotizacion.id_cotizacion ";
 
    $contenido=""; 
 foreach($data as $datas)

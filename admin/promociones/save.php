@@ -5,6 +5,7 @@ require("../../lib/database.php");
 require("../../lib/validator.php");
 require("../lib/verificador.php");
 verificador::permiso2($_SESSION['permisos']);
+$fecha=date('Y-m-d H:i:s');
 /* codigo para guardar y modificar promociones */
 if(empty($_GET['id'])) 
 {
@@ -56,16 +57,25 @@ if(!empty($_POST))
         }
         if($id==null)
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto la promocion $titulo",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "INSERT INTO promociones(titulo,descripcion,imagen,fecha_limite) VALUES(?,?,?,?)";
             $params = array($titulo, $descripcion,$imagen,$fecha_limite);
+            Database::executeRow($sql, $params);
+        @header("location: index.php");
         }
         else
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico la promocion $titulo",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "update promociones set titulo=?, descripcion=?,imagen=?,fecha_limite=? where id_promocion=?";
             $params = array($titulo, $descripcion,$imagen,$fecha_limite,$id);
-        }
-         Database::executeRow($sql, $params);
+            Database::executeRow($sql, $params);
         @header("location: index.php");
+        }
+         
     }
     catch (Exception $error)
     {

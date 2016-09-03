@@ -3,7 +3,7 @@ ob_start();
 require("../lib/page.php");
 require("../../lib/database.php");
 Page::header("Eliminar producto");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id = base64_decode($_GET['id']);
@@ -18,6 +18,11 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+         $data=Database::getRow("select nombre from ingrediente where id_ingrediente=?",array($id));
+        $alias=$data['nombre'];
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el ingrediente $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 		$sql = "update ingrediente set estado=1 WHERE id_ingrediente = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);

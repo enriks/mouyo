@@ -5,7 +5,7 @@ session_start();
         public static function header()
         {
             #si se necesita la hora :v
-            #ini_set("date.timezone","America/El_Salvador");
+            ini_set("date.timezone","America/El_Salvador");
             
             /*Arreglo que tiene informacio del header, rutas y ubicaciones que se mandan a llamar*/
             
@@ -93,21 +93,32 @@ session_start();
 	  				</div>
                     <div id='modal1' class='modal'>
                     <div class='modal-content'>
-                    <form class='row center-align' method='post' action='login.php'>
-                    <div class='row'>
-                    <div class='input-field col m6 offset-m3 s12'>
-                    <i class='material-icons prefix'>person_pin</i>
-                    <input id='alias' type='text' name='alias' autocomplete='off' class='validate' required/>
-                    <label for='alias'>Usuario</label>
-                    </div>
-                    <div class='input-field col m6 offset-m3 s12'>
-                    <i class='material-icons prefix'>vpn_key</i>
-                    <input id='clave' type='password' name='clave' class='validate' required/>
-                    <label for='clave'>Contraseña</label>
-                    </div>
-                    </div>
-                    <button type='submit' class='btn blue'><i class='material-icons right'>verified_user</i>Aceptar</button>
-                    </form>
+                    <div class='card bordered z-depth-2' style='margin:0% auto; max-width:400px;'>
+        <div class='card-header'>
+           <i class='material-icons medium white-text'>verified_user</i>
+        </div>
+        <div class='card-content'>
+          <form method='post' name='pene2' action='login.php' enctype='multipart/form-data'>
+            <div class='input-field col s12'>
+              <input name='alias' id='alias' autocomplete='off' type='text' class='validate'>
+              <label for='alias'>Nombre de Usuario</label>
+           </div>
+            <div class='input-field col s12'>
+              <input name='clave' id='clave' autocomplete='off' type='password' class='validate'>
+              <label for='clave'>Contraseña</label>
+            </div>
+            <br>
+              <button type='submit' name='enviar' class='btn blue'><i class='material-icons right'>verified_user</i>Iniciar Sesion</button>
+          </form> 
+        </div>
+        <div class='card-action clearfix'>
+          <div class='row'>
+            <div class='col s12 right-align text-p'>
+              <a href='register.php' class='orange-text tooltipped' data-position='top' data-delay='50' data-tooltip='Registrate ahora'>REGÍSTRATE AHORA</a>
+            </div>
+          </div>
+        </div>
+      </div>
                     </div>
                     <div class='modal-footer'>
                       <a href='#!' class=' modal-action modal-close waves-effect waves-green btn-flat'>Cerrar</a>

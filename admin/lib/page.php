@@ -6,7 +6,7 @@
         public static function header($title)
         {
             #si se necesita la hora :v
-            #ini_set("date.timezone","America/El_Salvador");
+            ini_set("date.timezone","America/El_Salvador");
             $session=false;
             $filename=basename($_SERVER['PHP_SELF']);
             $header="<!DOCTYPE html>

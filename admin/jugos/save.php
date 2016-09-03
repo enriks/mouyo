@@ -5,8 +5,7 @@ require("../../lib/validator.php");
 require("../lib/verificador.php");
 require("../lib/page.php");
 verificador::permiso4($_SESSION['permisos']);
-
-
+$fecha=date('Y-m-d H:i:s');
 /*condiciones para agregar y modificar*/
 
 if(empty($_GET['id'])) 
@@ -72,6 +71,9 @@ if(!empty($_POST))
             $sql = "INSERT INTO jugos (nombre, id_tipojugo,precio,imagen,descripcion) VALUES(?,?,?,?,?)";
             $params = array($nombre, $tipo,$precio,$imagen,$descripcion);
                 Database::executeRow($sql, $params);
+                $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el jugo $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
                 @header("location: index.php");
             }
             else
@@ -86,6 +88,9 @@ if(!empty($_POST))
                 $sql = "update jugos set nombre=?, id_tipojugo=?,precio=?,imagen=?,descripcion=? where id_jugo=?";
                 $params = array($nombre, $tipo,$precio,$imagen,$descripcion,$id);
                 Database::executeRow($sql, $params);
+                 $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el jugo $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
                 @header("location: index.php");
             }
             else
@@ -93,6 +98,9 @@ if(!empty($_POST))
                 $sql = "update jugos set nombre=?, id_tipojugo=?,precio=?,descripcion=? where id_jugo=?";
                 $params = array($nombre, $tipo,$precio,$descripcion,$id);
                 Database::executeRow($sql, $params);
+                 $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el jugo $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
                 @header("location: index.php");
             }
         }

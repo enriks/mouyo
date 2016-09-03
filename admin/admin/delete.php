@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso1($_SESSION['permisos']);
 Page::header("Eliminar categoría");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id =base64_decode( $_GET['id']);
@@ -20,7 +20,12 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+        $data=Database::getRow("select alias from admin where id_admin=?",array($id));
+        $alias=$data['alias'];
 		$sql = "update admin set estado=1 WHERE id_admin = ?";
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el administrador $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 	    $params = array($id);
 	    Database::executeRow($sql, $params);
 	    header("location: index.php");

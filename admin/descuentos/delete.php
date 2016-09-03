@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso2($_SESSION['permisos']);
 Page::header("Eliminar descuento");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id =base64_decode( $_GET['id']);
@@ -20,6 +20,11 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+        $data=Database::getRow("select nombre from descuentos where id_descuento=?",array($id));
+        $alias=$data['nombre'];
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el descuento $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 		$sql = "update descuentos set estado=1 WHERE id_descuento = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);

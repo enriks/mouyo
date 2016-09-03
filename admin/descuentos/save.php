@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso2($_SESSION['permisos']);
 require("../../lib/validator.php");
-
+$fecha=date('Y-m-d H:i:s');
 if(empty($_GET['id'])) 
 {
     Page::header("Agregar Descuento");
@@ -50,16 +50,26 @@ if(!empty($_POST))
         
         if($id==null)
         {
+            
                 $sql = "INSERT INTO descuentos(nombre,id_jugo,descuento,fecha_inicio,fecha_limite) VALUES(?,?,?,?,?)";
                 $params = array($nombre,$id_bebida,$descuento,$fecha_inicio,$fecha_limite);
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el descuento $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
+            Database::executeRow($sql, $params);
+        @header("location: index.php");
         }
         else
         {
             $sql = "update descuentos set nombre=?, id_jugo=?,descuento=?,fecha_inicio=?,fecha_limite=? where id_descuento=?";
             $params = array($nombre,$id_bebida,$descuento,$fecha_inicio,$fecha_limite,$id);
-        }
-         Database::executeRow($sql, $params);
+            Database::executeRow($sql, $params);
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el descuento $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
         @header("location: index.php");
+        }
+         
     }
     catch (Exception $error)
     {

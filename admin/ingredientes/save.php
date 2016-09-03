@@ -3,7 +3,7 @@ ob_start();
 require("../lib/page.php");
 require("../../lib/database.php");
 require("../../lib/validator.php");
-
+$fecha=date('Y-m-d H:i:s');
 if(empty($_GET['id'])) 
 {
     Page::header("Agregar Ingrediente");
@@ -54,16 +54,25 @@ if(!empty($_POST))
         }
         if($id==null)
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el ingrediente $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "INSERT INTO `ingrediente` (`nombre`, `descripcion`,tipo,imagen) VALUES(?,?,?,?)";
             $params = array($nombre, $descripcion,$tipo,$imagen);
+             Database::executeRow($sql, $params);
+        header("location: index.php");
         }
         else
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el ingrediente $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "update ingrediente set nombre=?, descripcion=?,imagen=?,tipo=? where id_ingrediente=?";
             $params = array($nombre, $descripcion,$imagen,$tipo,$id);
-        }
-         Database::executeRow($sql, $params);
+             Database::executeRow($sql, $params);
         header("location: index.php");
+        }
+        
     }
     catch (Exception $error)
     {

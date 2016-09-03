@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../../lib/validator.php");
 require("../lib/verificador.php");
 verificador::permiso1($_SESSION['permisos']);
-
+$fecha=date('Y-m-d H:i:s');
 if(empty($_GET['id'])) 
 {
     Page::header("Agregar Administrador");
@@ -85,8 +85,11 @@ if(!empty($_POST))
                 {
                 $clave = password_hash($clave1, PASSWORD_DEFAULT);
                 $sql = "INSERT INTO `admin` (`alias`, `clave`, `correo`,foto,permiso,estado) VALUES(?, ?,?, ?,?,?)";
+                $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
                 $params=array($alias,$clave,$correo,$imagen,$permiso,$estado);
+                $params2=array($fecha,"Inserto el administrador $alias",$_SESSION['id_admin']);
                     Database::executeRow($sql, $params);
+                    Database::executeRow($sql2, $params2);
             @header("location: index.php");
                 }
                 else
@@ -99,6 +102,9 @@ if(!empty($_POST))
                 if( $archivo['name'] != null)
                 {
                     $clave = password_hash($clave1, PASSWORD_DEFAULT);
+                    $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+                    $params2=array($fecha,"Modifico el administrador $alias",$_SESSION['id_admin']);
+                    Database::executeRow($sql2, $params2);
                     $sql = "update admin set alias=?, clave=?,foto=?,correo=?,permiso=?,estado=? where id_admin=?";
                     $params = array($alias, $clave,$imagen,$correo,$permiso,$estado,$id);
                     Database::executeRow($sql, $params);
@@ -107,6 +113,9 @@ if(!empty($_POST))
                 else
                 {
                     $clave = password_hash($clave1, PASSWORD_DEFAULT);
+                    $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+                    $params2=array($fecha,"Modifico el administrador $alias",$_SESSION['id_admin']);
+                    Database::executeRow($sql2, $params2);
                     $sql = "update admin set alias=?, clave=?,correo=?,permiso=?,estado=? where id_admin=?";
                     $params = array($alias, $clave,$correo,$permiso,$estado,$id);
                     Database::executeRow($sql, $params);

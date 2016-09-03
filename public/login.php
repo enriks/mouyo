@@ -10,7 +10,7 @@ require("main/page2.php");
 
 /* Funcion de PHP para iniciar sesion*/
 
-if(isset($_POST['enviar']))
+if(isset($_POST['enviar'])||!empty($_POST))
 {
     $_POST=validator::validateForm($_POST);
     $alias=$_POST['alias'];

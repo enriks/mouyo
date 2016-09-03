@@ -78,6 +78,9 @@ if(!empty($_POST))
                                 $sql = "INSERT INTO `admin` (`alias`, `clave`, `correo`,foto,permiso) VALUES(?, ?, ?,?,?)";
                                 $param = array($alias,$clave,$correo,$imagen,$permiso);
                                 Database::executeRow($sql, $param);
+                                 $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+                                $params2=array($fecha,"Se registro el administrador $alias",$_SESSION['id_admin']);
+                                Database::executeRow($sql2, $params2);
                                 @header("location: login.php");
                             }
                             else
