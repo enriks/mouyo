@@ -14,8 +14,11 @@
              <div class="col l4 s12">
                  <h5 class="white-text">Siguenos en las Redes</h5>
                  <ul>
-                     <li><a class="grey-text text-lighten-3" href="#!">Enlace1</a></li>
-                     <li><a class="grey-text text-lighten-3" href="#!">Enlace2</a></li>
+                    <?php $sql="select * from frontend";
+                     $params=null;
+                     $data=Database::getRow($sql,$params);?>
+                     <li><a class="grey-text text-lighten-3" href="<?php print($data['facebook']);?>">Facebook</a></li>
+                     <li><a class="grey-text text-lighten-3" href="<?php print($data['twitter']);?>">Twitter</a></li>
                  </ul>
              </div>
          </div>

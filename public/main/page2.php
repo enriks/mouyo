@@ -4,6 +4,9 @@ session_start();
     {
         public static function header()
         {
+            $sql="select * from frontend";
+            $params=null;
+            $data=Database::getRow($sql,$params);
             #si se necesita la hora :v
             ini_set("date.timezone","America/El_Salvador");
             
@@ -34,10 +37,10 @@ session_start();
             
             if(isset($_SESSION['nombre_apellido_usuario']))
             {
-                
+                                
                 $session=true;
                 $header2.="<a href='index.php' class='brand-logo left'>
-		        					<img src='img/mouyo.png' alt='hey profe'>
+		        					<img src='$data[logo]' alt='hey profe'>
 		        				</a>
                         <a href='#' data-activates='mobile' class='button-collapse'><i class='material-icons'>menu</i></a>
 	        					<ul class='right hide-on-med-and-down'>

@@ -5,6 +5,17 @@
     {
         public static function header($title)
         {
+            $sql="select id_admin,sesion from admin where id_admin=?";
+            $params=array(isset($_SESSION['id_admin']));
+            $data=Database::getRow($sql,$params);
+            if($data['sesion']==0)
+            {
+                header("location: ../main/logout.php");
+            }
+            else
+            {
+                $_SESSION['id_admin']=$data['id_admin'];
+            }
             #si se necesita la hora :v
             ini_set("date.timezone","America/El_Salvador");
             $session=false;

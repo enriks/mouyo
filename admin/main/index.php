@@ -1,5 +1,6 @@
 <!--pagina principal sitio privado-->
 <?php
+require("../../lib/database.php");
 require("../lib/page.php");
 Page::header("Bienvenid@");
 date_default_timezone_set("America/El_Salvador");
