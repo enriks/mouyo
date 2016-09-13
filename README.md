@@ -3,11 +3,6 @@
 #	-hacer reportes y graficos
 #	-sesion desde base de datos
 #	-validaciones
-#	-meter a la base de datos
-#	-frontend
-#	-faq
-#	-acerca de
-#	-footer
 #	-probar todo, todos los formularios
 # -cambiar diseño admin
 #	-cambiar colores
