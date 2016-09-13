@@ -2,7 +2,6 @@
     require("main/page2.php");
     require("../lib/database.php");
     Page2::header();
-include("jugos.php");
 $tamanio='';
 $cotizacion='';
     if(isset($_POST['enviar69']))
@@ -50,7 +49,7 @@ $cotizacion='';
          <?php
             $tabs="<div class='col s12'>
       <ul class='tabs'>";
-            $select="select * from cotizacion where id_usuario =?";
+            $select="select * from cotizacion where id_usuario =? and estado=0";
 $params=array($_SESSION['id_usuario']);
             $data=Database::getRows($select,$params);
             foreach($data as $datos)
@@ -61,7 +60,7 @@ $params=array($_SESSION['id_usuario']);
       </ul>
     </div>";
 
-$elselect="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? and detalle_cotizacion.id_cotizacion=cotizacion.id_cotizacion ";
+$elselect="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? and detalle_cotizacion.id_cotizacion=cotizacion.id_cotizacion and detalle_cotizacion.estado=0";
 
    $contenido=""; 
 foreach($data as $datas)

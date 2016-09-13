@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
 Page::header("Eliminar tipo de ingrediente");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id =base64_decode($_GET['id']);
@@ -20,6 +20,11 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+         $data=Database::getRow("select nombre from tipo_ingrediente where id_tipo=?",array($id));
+        $alias=$data['nombre'];
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el tipo de ingrediente $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 		$sql = "update tipo_ingrediente set estado=1 WHERE id_tipo = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);

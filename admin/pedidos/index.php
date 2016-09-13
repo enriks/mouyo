@@ -7,7 +7,7 @@ verificador::permiso4($_SESSION['permisos']);
 Page::header("Cotizaciones");
 
 //solo modificar params
-$sql1="SELECT detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad,jugos.nombre nombre_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,jugos.imagen from detalle_cotizacion,jugos,tamanio where detalle_cotizacion.id_tamanio=tamanio.id_tamanio and id_cotizacion=? order by jugos.nombre";
+$sql1="SELECT jugos.imagen,cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio,tamanio.tamanio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,tamanio,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_tamanio = tamanio.id_tamanio and cotizacion.id_usuario=? and detalle_cotizacion.id_cotizacion=cotizacion.id_cotizacion";
 
     $sqls="SELECT cotizacion.pedido,cotizacion.id_cotizacion,cotizacion.nombre nombre_cotizacion,usuario.alias nombre_usuario,cotizacion.fecha from usuario,cotizacion where cotizacion.id_usuario = usuario.id_usuario and cotizacion.pedido=? order by cotizacion.id_usuario";
     
@@ -37,7 +37,7 @@ if($datas != null)
               <th data-field='total'>Total</th>
           </tr>
         </thead><tbody>";
-        $paramss=array($row1['id_cotizacion']);
+        $paramss=array($row1['id_cotizacion'],$row1['id_usuario']);
         $datas=Database::getRows($sql1,$paramss);
         foreach($datas as $row2)
         {

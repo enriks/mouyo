@@ -15,7 +15,7 @@ $permiso="";
 <form method="post" name="frmMostrarCategorias" class="center-align">
         <fieldset>
             <!--a href="save.php" class="btn waves-effect waves-light btn-large indigo darken-4">Agregar Administrador</a-->
-            <a class=" right waves-effect waves-light btn modal-trigger btn-floating btn-large red tooltipped" href="#modal11" data-tooltip="Agregar nuevo usuario Admin" data-position="top" data-delay="50"><i class="large material-icons">add</i></a>
+            <a class=" right waves-effect waves-light btn modal-trigger btn-large red tooltipped" href="#modal11" data-tooltip="Agregar nuevo usuario Admin" data-position="top" data-delay="50">Agregar administrador</a>
             <div class='input-field col s6 m4'>
       	<i class='material-icons prefix'>search</i>
       	<input id='buscar' type='text' name='buscar' class='validate'/>

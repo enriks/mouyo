@@ -5,6 +5,7 @@ require("../../lib/database.php");
 require("../../lib/validator.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
+$fecha=date('Y-m-d H:i:s');
 /*Condiciones para relizar operaciones en jugos.php*/
 if(empty($_GET['id'])) 
 {
@@ -40,19 +41,27 @@ if(!empty($_POST))
         {
             throw new Exception("Datos incompletos.");
         }
-
-        if($id == null)
+        elseif($id == null)
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el tipo de jugo $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
         	$sql = "INSERT INTO tipo_jugo(nombre, descripcion) VALUES(?, ?)";
             $params = array($nombre, $descripcion);
+            Database::executeRow($sql, $params);
+        @header("location: index.php");
         }
         else
         {
-            $sql = "UPDATE categorias SET nombre = ?, descripcion = ? WHERE id_tipojugo = ?";
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el tipo de jugo $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
+            $sql = "UPDATE tipo_jugo SET nombre = ?, descripcion = ? WHERE id_tipojugo = ?";
             $params = array($nombre, $descripcion, $id);
-        }
-        Database::executeRow($sql, $params);
+            Database::executeRow($sql, $params);
         @header("location: index.php");
+        }
+        
     }
     catch (Exception $error)
     {

@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
 Page::header("Eliminar tipo de jugo");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id = base64_decode($_GET['id']);
@@ -20,6 +20,11 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+        $data=Database::getRow("select nombre from tipo_jugo where id_tipojugo=?",array($id));
+        $alias=$data['nombre'];
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el tipo de jugo $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 		$sql = "update tipo_jugo set estado=1 WHERE id_tipojugo = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);

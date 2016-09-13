@@ -44,6 +44,7 @@ if(!empty($_POST))
                             $_SESSION['id_admin'] = $data['id_admin'];
                             $_SESSION['usuario_admin'] = $data['alias'];
                             $_SESSION['permisos']=$data['permiso'];
+                            $_SESSION['tiempo']=time();
                             $sql="update admin set sesion=1 where id_admin=?";
                             $params=array($data['id_admin']);
                             Database::executeRow($sql,$params);

@@ -30,6 +30,15 @@
                                 <div class='nav-wrapper'>";
             if(isset($_SESSION['usuario_admin']))
             {
+                $diff=time() - $_SESSION['tiempo'];
+                if($diff > 900)
+                {
+                    header("location: ../main/logout.php");
+                }
+                else
+                {
+                    $_SESSION['tiempo']=time();
+                }
                 
                 $session=true;
                 if($_SESSION['permisos']==1)

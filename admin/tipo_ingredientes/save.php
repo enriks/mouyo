@@ -6,6 +6,7 @@ require("../../lib/validator.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
 /*operaciones para tipo ingredientes*/
+$fecha=date('Y-m-d H:i:s');
 if(empty($_GET['id'])) 
 {
     Page::header("Agregar Tipo de Jugo");
@@ -39,16 +40,25 @@ if(!empty($_POST))
 
         if($id == null)
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el tipo de ingrediente $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
         	$sql = "INSERT INTO tipo_ingrediente(nombre, precio) VALUES(?, ?)";
             $params = array($nombre, $precio);
+            Database::executeRow($sql, $params);
+        @header("location: index.php");
         }
         else
         {
-            $sql = "UPDATE categorias SET nombre = ?, precio = ? WHERE id_tipo = ?";
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el tipo de ingrediente $nombre",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
+            $sql = "UPDATE tipo_ingrediente SET nombre = ?, precio = ? WHERE id_tipo = ?";
             $params = array($nombre, $precio, $id);
-        }
-        Database::executeRow($sql, $params);
+            Database::executeRow($sql, $params);
         @header("location: index.php");
+        }
+        
     }
     catch (Exception $error)
     {

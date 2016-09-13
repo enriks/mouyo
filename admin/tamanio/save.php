@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../../lib/validator.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
-
+$fecha=date('Y-m-d H:i:s');
 /*operaciones para tamañio*/
 
 if(empty($_GET['id'])) 
@@ -40,16 +40,25 @@ if(!empty($_POST))
         }
         elseif($id==null)
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Inserto el tamaño de $tamanio",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "INSERT INTO tamanio(precio,tamanio) VALUES(?,?)";
             $params = array($precio, $tamanio);
+             Database::executeRow($sql, $params);
+        @header("location: index.php");
         }
         else
         {
+            $sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Modifico el tamaño de $tamanio",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
             $sql = "update tamanio set precio=?, tamanio=? where id_tamanio=?";
             $params = array($precio, $tamanio, $id);
-        }
-         Database::executeRow($sql, $params);
+             Database::executeRow($sql, $params);
         @header("location: index.php");
+        }
+        
     }
     catch (Exception $error)
     {

@@ -19,8 +19,8 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
-		$sql = "DELETE FROM cotizacion WHERE id_cotizacion= ?";
-		$sql2 = "DELETE FROM detalle_cotizacion WHERE id_cotizacion= ?";
+		$sql = "update cotizacion set estado=1 WHERE id_cotizacion= ?";
+		$sql2 = "update detalle_cotizacion set estado=1 where id_cotizacion=?";
 	    $params = array($id);
 	    Database::executeRow($sql2, $params);
 	    Database::executeRow($sql, $params);
@@ -36,12 +36,30 @@ if(!empty($_POST))
 	<input type='hidden' name='id' value='<?php print($id); ?>'/>
 	<?php
         $select="select * from cotizacion where id_cotizacion=?";
-        $selectq="select count(*) conta from detalle_cotizacion where id_cotizacion=?";
+        $selectq="SELECT cotizacion.nombre nombre_cotizacion,jugos.nombre nombre_jugo, jugos.imagen imagen_jugo,jugos.precio nombre_tamanio,detalle_cotizacion.id_jugo,detalle_cotizacion.cantidad from jugos,cotizacion,detalle_cotizacion where detalle_cotizacion.id_cotizacion = ? and detalle_cotizacion.id_jugo = jugos.id_jugo and detalle_cotizacion.id_cotizacion=cotizacion.id_cotizacion  ";
     $paras=array($id);
     $datra=Database::getRow($select,$paras);
-    $datra2=Database::getRow($selectq,$paras);
-    $printo="<h4>Eliminar la cotizacion $datra[nombre], con $datra2[conta] jugos, tuvo un total de $$total</h4>
-   ";
+    $datra2=Database::getRows($selectq,$paras);
+    $printo="<h4>¿Desea eliminar $datra[nombre]?</h4>
+    <h5>Con los jugos</h5><table style='width:100%' class='bordered'><thead>
+          <tr>
+              <th data-field='nombre'>Nombre</th>
+              <th data-field='tamanio'>Tamaño</th>
+              <th data-field='cantidad'>Cantidad</th>
+              <th data-field='total'>Total</th>
+          </tr>
+        </thead><tbody>";
+    foreach($datra2 as $roww)
+    {
+        $printo.="<tr>
+            <td>$roww[nombre_jugo]</td>
+            <td>$roww[nombre_tamanio]</td>
+            <td>$roww[cantidad]</td>
+            <td>$total</td>
+          </tr>";
+    }
+    $printo.=" </tbody>
+      </table>";
     print $printo;
     ?>
 	

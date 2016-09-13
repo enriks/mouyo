@@ -5,7 +5,7 @@ require("../../lib/database.php");
 require("../lib/verificador.php");
 verificador::permiso3($_SESSION['permisos']);
 Page::header("Eliminar Tamaño de Bebida");
-
+$fecha=date('Y-m-d H:i:s');
 if(!empty($_GET['id'])) 
 {
     $id = base64_decode($_GET['id']);
@@ -20,6 +20,11 @@ if(!empty($_POST))
 	$id = $_POST['id'];
 	try 
 	{
+        $data=Database::getRow("select tamanio from tamanio where id_tamanio=?",array($id));
+        $alias=$data['tamanio'];
+		$sql2 = "INSERT INTO `historial` (`fecha`, `accion`, `id_admin`) VALUES(?, ?,?)";
+        $params2=array($fecha,"Elimino el tamaño de $alias",$_SESSION['id_admin']);
+        Database::executeRow($sql2, $params2);
 		$sql = "update tamanio set estado=1 WHERE id_tamanio = ?";
 	    $params = array($id);
 	    Database::executeRow($sql, $params);

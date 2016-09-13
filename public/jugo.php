@@ -115,8 +115,11 @@ else
                 </p>
                 <form method='post' name='nada' enctype='multipart/form-data'>
                 $cotisasion
-                </form>
-                <div id='modal3' class='modal'>
+                </form>";
+        if(isset($_SESSION['id_usuario'])!=null)
+        {
+            
+                $tabla.="<div id='modal3' class='modal'>
     <div class='modal-content'>
      <form method='post' name='frmCotizacion' class='center-align'>
         <fieldset>
@@ -141,8 +144,9 @@ else
     <div class='modal-footer'>
       <a href='#!' class=' modal-action modal-close waves-effect waves-green btn-flat'>Cerrar</a>
     </div>
-  </div>
-                <ul class='collapsible' data-collapsible='accordion'>
+  </div>";
+        }
+                $tabla.="<ul class='collapsible' data-collapsible='accordion'>
                     <li>
                         <div class='collapsible-header'><i class='material-icons'></i>Ingredientes</div>
                         <div class='collapsible-body'>";
